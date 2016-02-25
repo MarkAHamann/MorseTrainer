@@ -40,6 +40,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -69,6 +70,10 @@
             this.txtStartDelay = new System.Windows.Forms.TextBox();
             this.txtStopDelay = new System.Windows.Forms.TextBox();
             this.txtVolume = new System.Windows.Forms.TextBox();
+            this.mnuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuContextRestoreDefaults = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuContextSetProsignKeys = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuContextAbout = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.sliderFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderWPM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderDuration)).BeginInit();
@@ -76,12 +81,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.sliderStartDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderStopDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderVolume)).BeginInit();
+            this.mnuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 23);
+            this.label1.Location = new System.Drawing.Point(16, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(84, 20);
             this.label1.TabIndex = 0;
@@ -90,7 +96,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 62);
+            this.label2.Location = new System.Drawing.Point(16, 56);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(47, 20);
             this.label2.TabIndex = 1;
@@ -99,7 +105,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 135);
+            this.label3.Location = new System.Drawing.Point(16, 144);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(112, 20);
             this.label3.TabIndex = 3;
@@ -108,7 +114,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(16, 96);
+            this.label4.Location = new System.Drawing.Point(16, 100);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(131, 20);
             this.label4.TabIndex = 2;
@@ -117,11 +123,11 @@
             // sliderFrequency
             // 
             this.sliderFrequency.LargeChange = 100;
-            this.sliderFrequency.Location = new System.Drawing.Point(229, 25);
+            this.sliderFrequency.Location = new System.Drawing.Point(147, 9);
             this.sliderFrequency.Maximum = 1000;
             this.sliderFrequency.Minimum = 400;
             this.sliderFrequency.Name = "sliderFrequency";
-            this.sliderFrequency.Size = new System.Drawing.Size(637, 69);
+            this.sliderFrequency.Size = new System.Drawing.Size(663, 69);
             this.sliderFrequency.SmallChange = 50;
             this.sliderFrequency.TabIndex = 4;
             this.sliderFrequency.TickFrequency = 50;
@@ -130,32 +136,32 @@
             // 
             // sliderWPM
             // 
-            this.sliderWPM.Location = new System.Drawing.Point(229, 62);
+            this.sliderWPM.Location = new System.Drawing.Point(147, 53);
             this.sliderWPM.Maximum = 80;
             this.sliderWPM.Minimum = 8;
             this.sliderWPM.Name = "sliderWPM";
-            this.sliderWPM.Size = new System.Drawing.Size(637, 69);
+            this.sliderWPM.Size = new System.Drawing.Size(663, 69);
             this.sliderWPM.TabIndex = 5;
             this.sliderWPM.Value = 20;
             this.sliderWPM.Scroll += new System.EventHandler(this.sliderWPM_Scroll);
             // 
             // sliderDuration
             // 
-            this.sliderDuration.Location = new System.Drawing.Point(229, 137);
+            this.sliderDuration.Location = new System.Drawing.Point(147, 134);
             this.sliderDuration.Minimum = 1;
             this.sliderDuration.Name = "sliderDuration";
-            this.sliderDuration.Size = new System.Drawing.Size(637, 69);
+            this.sliderDuration.Size = new System.Drawing.Size(663, 69);
             this.sliderDuration.TabIndex = 7;
             this.sliderDuration.Value = 2;
             this.sliderDuration.Scroll += new System.EventHandler(this.sliderDuration_Scroll);
             // 
             // sliderFarnsworth
             // 
-            this.sliderFarnsworth.Location = new System.Drawing.Point(229, 100);
+            this.sliderFarnsworth.Location = new System.Drawing.Point(147, 97);
             this.sliderFarnsworth.Maximum = 80;
             this.sliderFarnsworth.Minimum = 8;
             this.sliderFarnsworth.Name = "sliderFarnsworth";
-            this.sliderFarnsworth.Size = new System.Drawing.Size(637, 69);
+            this.sliderFarnsworth.Size = new System.Drawing.Size(663, 69);
             this.sliderFarnsworth.TabIndex = 6;
             this.sliderFarnsworth.Value = 13;
             this.sliderFarnsworth.Scroll += new System.EventHandler(this.sliderFarnsworth_Scroll);
@@ -165,14 +171,14 @@
             this.txtAnalysis.Location = new System.Drawing.Point(20, 288);
             this.txtAnalysis.Name = "txtAnalysis";
             this.txtAnalysis.ReadOnly = true;
-            this.txtAnalysis.Size = new System.Drawing.Size(955, 177);
+            this.txtAnalysis.Size = new System.Drawing.Size(884, 177);
             this.txtAnalysis.TabIndex = 8;
             this.txtAnalysis.Text = "";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(22, 247);
+            this.label5.Location = new System.Drawing.Point(12, 262);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(182, 20);
             this.label5.TabIndex = 9;
@@ -181,7 +187,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(16, 186);
+            this.label6.Location = new System.Drawing.Point(16, 188);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(88, 20);
             this.label6.TabIndex = 10;
@@ -190,7 +196,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(428, 186);
+            this.label7.Location = new System.Drawing.Point(357, 188);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(87, 20);
             this.label7.TabIndex = 11;
@@ -198,17 +204,17 @@
             // 
             // sliderStartDelay
             // 
-            this.sliderStartDelay.Location = new System.Drawing.Point(229, 175);
+            this.sliderStartDelay.Location = new System.Drawing.Point(147, 185);
             this.sliderStartDelay.Maximum = 5;
             this.sliderStartDelay.Name = "sliderStartDelay";
-            this.sliderStartDelay.Size = new System.Drawing.Size(135, 69);
+            this.sliderStartDelay.Size = new System.Drawing.Size(146, 69);
             this.sliderStartDelay.TabIndex = 12;
             this.sliderStartDelay.Value = 2;
             this.sliderStartDelay.Scroll += new System.EventHandler(this.sliderStartDelay_Scroll);
             // 
             // sliderStopDelay
             // 
-            this.sliderStopDelay.Location = new System.Drawing.Point(521, 175);
+            this.sliderStopDelay.Location = new System.Drawing.Point(450, 185);
             this.sliderStopDelay.Maximum = 5;
             this.sliderStopDelay.Name = "sliderStopDelay";
             this.sliderStopDelay.Size = new System.Drawing.Size(128, 69);
@@ -218,7 +224,7 @@
             // 
             // txtFrequency
             // 
-            this.txtFrequency.Location = new System.Drawing.Point(887, 27);
+            this.txtFrequency.Location = new System.Drawing.Point(816, 9);
             this.txtFrequency.Name = "txtFrequency";
             this.txtFrequency.Size = new System.Drawing.Size(88, 26);
             this.txtFrequency.TabIndex = 14;
@@ -226,7 +232,7 @@
             // 
             // txtWPM
             // 
-            this.txtWPM.Location = new System.Drawing.Point(887, 64);
+            this.txtWPM.Location = new System.Drawing.Point(816, 53);
             this.txtWPM.Name = "txtWPM";
             this.txtWPM.Size = new System.Drawing.Size(88, 26);
             this.txtWPM.TabIndex = 15;
@@ -234,7 +240,7 @@
             // 
             // txtFarnsworth
             // 
-            this.txtFarnsworth.Location = new System.Drawing.Point(887, 102);
+            this.txtFarnsworth.Location = new System.Drawing.Point(816, 97);
             this.txtFarnsworth.Name = "txtFarnsworth";
             this.txtFarnsworth.Size = new System.Drawing.Size(88, 26);
             this.txtFarnsworth.TabIndex = 16;
@@ -242,7 +248,7 @@
             // 
             // txtDuration
             // 
-            this.txtDuration.Location = new System.Drawing.Point(887, 137);
+            this.txtDuration.Location = new System.Drawing.Point(816, 141);
             this.txtDuration.Name = "txtDuration";
             this.txtDuration.Size = new System.Drawing.Size(88, 26);
             this.txtDuration.TabIndex = 17;
@@ -250,7 +256,7 @@
             // 
             // btnStartStop
             // 
-            this.btnStartStop.Location = new System.Drawing.Point(229, 239);
+            this.btnStartStop.Location = new System.Drawing.Point(786, 514);
             this.btnStartStop.Name = "btnStartStop";
             this.btnStartStop.Size = new System.Drawing.Size(118, 43);
             this.btnStartStop.TabIndex = 18;
@@ -295,7 +301,7 @@
             // 
             this.txtCustom.Location = new System.Drawing.Point(139, 522);
             this.txtCustom.Name = "txtCustom";
-            this.txtCustom.Size = new System.Drawing.Size(510, 26);
+            this.txtCustom.Size = new System.Drawing.Size(602, 26);
             this.txtCustom.TabIndex = 22;
             // 
             // chkFavorNew
@@ -312,7 +318,7 @@
             // sliderVolume
             // 
             this.sliderVolume.LargeChange = 10;
-            this.sliderVolume.Location = new System.Drawing.Point(805, 175);
+            this.sliderVolume.Location = new System.Drawing.Point(747, 185);
             this.sliderVolume.Name = "sliderVolume";
             this.sliderVolume.Size = new System.Drawing.Size(116, 69);
             this.sliderVolume.TabIndex = 25;
@@ -323,7 +329,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(712, 186);
+            this.label8.Location = new System.Drawing.Point(678, 188);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(63, 20);
             this.label8.TabIndex = 24;
@@ -331,30 +337,62 @@
             // 
             // txtStartDelay
             // 
-            this.txtStartDelay.Location = new System.Drawing.Point(370, 180);
+            this.txtStartDelay.Location = new System.Drawing.Point(299, 185);
             this.txtStartDelay.Name = "txtStartDelay";
             this.txtStartDelay.Size = new System.Drawing.Size(35, 26);
             this.txtStartDelay.TabIndex = 26;
             // 
             // txtStopDelay
             // 
-            this.txtStopDelay.Location = new System.Drawing.Point(642, 180);
+            this.txtStopDelay.Location = new System.Drawing.Point(584, 185);
             this.txtStopDelay.Name = "txtStopDelay";
             this.txtStopDelay.Size = new System.Drawing.Size(35, 26);
             this.txtStopDelay.TabIndex = 27;
             // 
             // txtVolume
             // 
-            this.txtVolume.Location = new System.Drawing.Point(927, 180);
+            this.txtVolume.Location = new System.Drawing.Point(869, 185);
             this.txtVolume.Name = "txtVolume";
             this.txtVolume.Size = new System.Drawing.Size(35, 26);
             this.txtVolume.TabIndex = 28;
+            // 
+            // mnuStrip
+            // 
+            this.mnuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.mnuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuContextRestoreDefaults,
+            this.mnuContextSetProsignKeys,
+            this.mnuContextAbout});
+            this.mnuStrip.Name = "mnuStrip";
+            this.mnuStrip.Size = new System.Drawing.Size(241, 94);
+            // 
+            // mnuContextRestoreDefaults
+            // 
+            this.mnuContextRestoreDefaults.Name = "mnuContextRestoreDefaults";
+            this.mnuContextRestoreDefaults.Size = new System.Drawing.Size(240, 30);
+            this.mnuContextRestoreDefaults.Text = "Restore Defaults";
+            this.mnuContextRestoreDefaults.Click += new System.EventHandler(this.mnuContextRestoreDefaults_Click);
+            // 
+            // mnuContextSetProsignKeys
+            // 
+            this.mnuContextSetProsignKeys.Name = "mnuContextSetProsignKeys";
+            this.mnuContextSetProsignKeys.Size = new System.Drawing.Size(240, 30);
+            this.mnuContextSetProsignKeys.Text = "Set Prosign Keys...";
+            this.mnuContextSetProsignKeys.Click += new System.EventHandler(this.mnuContextSetProsignKeys_Click);
+            // 
+            // mnuContextAbout
+            // 
+            this.mnuContextAbout.Name = "mnuContextAbout";
+            this.mnuContextAbout.Size = new System.Drawing.Size(240, 30);
+            this.mnuContextAbout.Text = "About...";
+            this.mnuContextAbout.Click += new System.EventHandler(this.mnuContextAbout_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(991, 631);
+            this.ClientSize = new System.Drawing.Size(941, 580);
+            this.ContextMenuStrip = this.mnuStrip;
             this.Controls.Add(this.txtVolume);
             this.Controls.Add(this.txtStopDelay);
             this.Controls.Add(this.txtStartDelay);
@@ -396,6 +434,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.sliderStartDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderStopDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderVolume)).EndInit();
+            this.mnuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -432,6 +471,10 @@
         private System.Windows.Forms.TextBox txtStartDelay;
         private System.Windows.Forms.TextBox txtStopDelay;
         private System.Windows.Forms.TextBox txtVolume;
+        private System.Windows.Forms.ContextMenuStrip mnuStrip;
+        private System.Windows.Forms.ToolStripMenuItem mnuContextRestoreDefaults;
+        private System.Windows.Forms.ToolStripMenuItem mnuContextSetProsignKeys;
+        private System.Windows.Forms.ToolStripMenuItem mnuContextAbout;
     }
 }
 

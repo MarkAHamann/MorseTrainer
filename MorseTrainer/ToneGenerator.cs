@@ -1,4 +1,22 @@
-﻿using System;
+﻿/*
+    Morse Trainer
+    Copyright (C) 2016 Mark Hamann
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,19 +25,60 @@ using System.Media;
 
 namespace MorseTrainer
 {
+    /// <summary>
+    /// The ToneGenerator creates waveforms from the information about frequency,
+    /// words per minute, and volume
+    /// </summary>
     public class ToneGenerator
     {
+        /// <summary>
+        /// The minimum frequency in Hertz
+        /// </summary>
         public const UInt16 MIN_FREQUENCY = 300;
+
+        /// <summary>
+        /// The maximum frequency in Hertz
+        /// </summary>
         public const UInt16 MAX_FREQUENCY = 1200;
+
+        /// <summary>
+        /// The minimum words per minute
+        /// </summary>
         public const float MIN_WPM = 3.0f;
+
+        /// <summary>
+        /// The maximum words per minute
+        /// </summary>
         public const float MAX_WPM = 40.0f;
+
+        /// <summary>
+        /// The minimum Farnsworth words per minute
+        /// </summary>
         public const float MIN_FARNSWORTH_WPM = 3.0f;
+
+        /// <summary>
+        /// The maximum Farnsworth words per minute
+        /// </summary>
         public const float MAX_FARNSWORTH_WPM = 40.0f;
+
+        /// <summary>
+        /// The minimum volume 0-1
+        /// </summary>
         public const float MIN_VOLUME = 0.0f;
+
+        /// <summary>
+        /// The maximum volume 0-1
+        /// </summary>
         public const float MAX_VOLUME = 1.0f;
 
+        /// <summary>
+        /// The number of samples per second for the waveform
+        /// </summary>
         public const Int32 SAMPLES_PER_SECOND = 8000;
 
+        /// <summary>
+        /// Creates a new ToneGenerator
+        /// </summary>
         public ToneGenerator()
         {
             _frequency = 0;
@@ -38,6 +97,9 @@ namespace MorseTrainer
             return millisecPerElement;
         }
 
+        /// <summary>
+        /// Use new values for generating tones
+        /// </summary>
         public void Update()
         {
             // changing tone frequency or WPM will cause the tones to be regenerated
@@ -61,6 +123,9 @@ namespace MorseTrainer
             }
         }
 
+        /// <summary>
+        /// Gets the current frequency in Hertz
+        /// </summary>
         public UInt16 CurrentFrequency
         {
             get
@@ -69,6 +134,9 @@ namespace MorseTrainer
             }
         }
 
+        /// <summary>
+        /// Gets or sets the set frequency in Hertz
+        /// </summary>
         public UInt16 Frequency
         {
             get
@@ -85,6 +153,9 @@ namespace MorseTrainer
             }
         }
 
+        /// <summary>
+        /// Gets or sets the set volume (0-1)
+        /// </summary>
         public float Volume
         {
             get
@@ -100,6 +171,10 @@ namespace MorseTrainer
                 _newVolume = value;
             }
         }
+
+        /// <summary>
+        /// Gets the current volume (0-1)
+        /// </summary>
         public float CurrentVolume
         {
             get
@@ -108,6 +183,9 @@ namespace MorseTrainer
             }
         }
 
+        /// <summary>
+        /// Gets or sets the set words per minute
+        /// </summary>
         public float WPM
         {
             get
@@ -124,6 +202,9 @@ namespace MorseTrainer
             }
         }
 
+        /// <summary>
+        /// Gets the current Farnsworth words per minute
+        /// </summary>
         public float CurrentFarnsworthWPM
         {
             get
@@ -132,6 +213,9 @@ namespace MorseTrainer
             }
         }
 
+        /// <summary>
+        /// Gets or sets the set Farnsworth words per minute
+        /// </summary>
         public float FarnsworthWPM
         {
             get
@@ -148,6 +232,9 @@ namespace MorseTrainer
             }
         }
 
+        /// <summary>
+        /// Gets the current samples per cycle
+        /// </summary>
         public UInt32 SamplesPerCycle
         {
             get
@@ -222,6 +309,9 @@ namespace MorseTrainer
             return waveform;
         }
 
+        /// <summary>
+        /// Gets the dot waveform array
+        /// </summary>
         public Int16[] DotToneWaveform
         {
             get
@@ -230,6 +320,9 @@ namespace MorseTrainer
             }
         }
 
+        /// <summary>
+        /// Gets the dash waveform array
+        /// </summary>
         public Int16[] DashToneWaveform
         {
             get
@@ -238,6 +331,9 @@ namespace MorseTrainer
             }
         }
 
+        /// <summary>
+        /// Gets the dot-sized space waveform array
+        /// </summary>
         public Int16[] DotSpaceWaveform
         {
             get
@@ -246,6 +342,9 @@ namespace MorseTrainer
             }
         }
 
+        /// <summary>
+        /// Gets the letter-sized space waveform array
+        /// </summary>
         public Int16[] LetterSpaceWaveform
         {
             get
@@ -254,6 +353,9 @@ namespace MorseTrainer
             }
         }
 
+        /// <summary>
+        /// Gets the word-sized space waveform array
+        /// </summary>
         public Int16[] WordSpaceWaveform
         {
             get
@@ -262,6 +364,9 @@ namespace MorseTrainer
             }
         }
 
+        /// <summary>
+        /// Creates a space waveform array based on the Farnsworth timing
+        /// </summary>
         public Int16[] FarnsworthSpacingWaveform(Char c)
         {
             // Get the equivalent dots

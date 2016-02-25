@@ -1,4 +1,22 @@
-﻿using System;
+﻿/*
+    Morse Trainer
+    Copyright (C) 2016 Mark Hamann
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,20 +24,40 @@ using System.Threading.Tasks;
 
 namespace MorseTrainer
 {
+    /// <summary>
+    /// WaveStream holds a memory stream with a WAV waveform
+    /// </summary>
     public class WaveStream
     {
+        /// <summary>
+        /// Creates a WAV of the Morse code of 'text'
+        /// </summary>
+        /// <param name="text">The text to convert to a Morse code sound stream</param>
+        /// <param name="waveform">The waveform array</param>
+        /// <param name="sampleRate">Sample rate of the data in waveform</param>
+        /// <param name="samplesPerCycle">Samples per cycle of the data in waveform</param>
         public WaveStream(String text, Int16[] waveform, UInt32 sampleRate, UInt32 samplesPerCycle)
         {
             _text = text;
             SetupStream(waveform, sampleRate, samplesPerCycle);
         }
 
+        /// <summary>
+        /// Creates a WAV of the Morse code of 'text'
+        /// </summary>
+        /// <param name="text">The text to convert to a Morse code sound stream</param>
+        /// <param name="waveforms">Partial waveform arrays</param>
+        /// <param name="sampleRate">Sample rate of the data in waveform</param>
+        /// <param name="samplesPerCycle">Samples per cycle of the data in waveform</param>
         public WaveStream(String text, IEnumerable<Int16[]> waveforms, UInt32 sampleRate, UInt32 samplesPerCycle)
         {
             _text = text;
             SetupStream(waveforms, sampleRate, samplesPerCycle);
         }
-
+        
+        /// <summary>
+        /// Gets the text associated with the Morse code sound 
+        /// </summary>
         public String Text
         {
             get
@@ -27,7 +65,10 @@ namespace MorseTrainer
                 return _text;
             }
         }
-
+        
+        /// <summary>
+        /// Gets the stream with the WAV stream
+        /// </summary>
         public System.IO.Stream Stream
         {
             get

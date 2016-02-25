@@ -1,4 +1,22 @@
-﻿using System;
+﻿/*
+    Morse Trainer
+    Copyright (C) 2016 Mark Hamann
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,11 +31,23 @@ namespace MorseTrainer
     /// </summary>
     public class WordToToneBuilder
     {
+
+        /// <summary>
+        /// Creates a new WordToToneBuilder object that keeps a reference to a
+        /// tone generator
+        /// </summary>
+        /// <param name="toneGenerator">The tone generator</param>
         public WordToToneBuilder(ToneGenerator toneGenerator)
         {
             _toneGenerator = toneGenerator;
         }
 
+        /// <summary>
+        /// Starts to build a waveform of the morse code of 'word'
+        /// </summary>
+        /// <param name="word">A string to convert to a morse code WAV</param>
+        /// <param name="callback">A callback that is called when the WAV is ready</param>
+        /// <returns></returns>
         public IAsyncResult StartBuildAsync(String word, AsyncCallback callback)
         {
             BuildWaverformAsync asyncResult = new BuildWaverformAsync(word, callback);
@@ -78,20 +108,36 @@ namespace MorseTrainer
         private ToneGenerator _toneGenerator;
     }
 
+    /// <summary>
+    /// A BuildWaverformAsync object implements the IAsyncResult interface for
+    /// WordToToneBuilder.StartBuildAsync
+    /// </summary>
     public class BuildWaverformAsync : IAsyncResult
     {
+        /// <summary>
+        /// Builds the IAsyncResult object for 'word'
+        /// </summary>
+        /// <param name="word">The word that being converted to morse code</param>
+        /// <param name="callback">Callback called when the WAV is ready</param>
         public BuildWaverformAsync(String word, AsyncCallback callback)
         {
             _word = word;
             _callback = callback;
             _waveStream = null;
         }
-
+        
+        /// <summary>
+        /// Sets the waveform that is the AsyncState object
+        /// </summary>
+        /// <param name="wavestream"></param>
         public void SetWaveform(WaveStream wavestream)
         {
             _waveStream = wavestream;
         }
-
+        
+        /// <summary>
+        /// Gets the WAV file or null of it is not ready
+        /// </summary>
         public object AsyncState
         {
             get
@@ -99,7 +145,10 @@ namespace MorseTrainer
                 return _waveStream;
             }
         }
-
+        
+        /// <summary>
+        /// Not implemented.
+        /// </summary>
         public WaitHandle AsyncWaitHandle
         {
             get
@@ -108,6 +157,9 @@ namespace MorseTrainer
             }
         }
 
+        /// <summary>
+        /// Always false
+        /// </summary>
         public bool CompletedSynchronously
         {
             get
@@ -116,6 +168,9 @@ namespace MorseTrainer
             }
         }
 
+        /// <summary>
+        /// Returns true if the WAV construction is complete
+        /// </summary>
         public bool IsCompleted
         {
             get
@@ -124,6 +179,9 @@ namespace MorseTrainer
             }
         }
 
+        /// <summary>
+        /// The word that the WAV corresponds to
+        /// </summary>
         public String Word
         {
             get
@@ -132,6 +190,9 @@ namespace MorseTrainer
             }
         }
 
+        /// <summary>
+        /// Calls the callback
+        /// </summary>
         public void Callback()
         {
             if (_callback != null)

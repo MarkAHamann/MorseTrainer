@@ -1,4 +1,22 @@
-﻿using System;
+﻿/*
+    Morse Trainer
+    Copyright (C) 2016 Mark Hamann
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,6 +38,8 @@ namespace MorseTrainer
             TextBox = 0x02,
             All = 0x03
         }
+
+        private static readonly String CONFIG_FILE_NAME = "config.cfg";
 
         public Form1()
         {
@@ -112,11 +132,19 @@ namespace MorseTrainer
         }
 
         #region Configuration
+        private void DeleteConfigFile()
+        {
+            if (System.IO.File.Exists(CONFIG_FILE_NAME))
+            {
+                System.IO.File.Delete(CONFIG_FILE_NAME);
+            }
+        }
+
         private Config LoadConfig()
         {
             Config config = null;
 
-            if (!System.IO.File.Exists("config.cfg"))
+            if (!System.IO.File.Exists(CONFIG_FILE_NAME))
             {
                 SaveConfig(Config.Default);
             }
@@ -124,7 +152,7 @@ namespace MorseTrainer
             System.IO.Stream stream = null;
             try
             {
-                stream = System.IO.File.Open("config.cfg", System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.None);
+                stream = System.IO.File.Open(CONFIG_FILE_NAME, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.None);
                 System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                 config = (Config)bf.Deserialize(stream);
             }
@@ -147,7 +175,7 @@ namespace MorseTrainer
             System.IO.Stream stream = null;
             try
             {
-                stream = System.IO.File.Open("config.cfg", System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None);
+                stream = System.IO.File.Open(CONFIG_FILE_NAME, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None);
                 System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                 bf.Serialize(stream, config);
             }
@@ -1258,6 +1286,23 @@ namespace MorseTrainer
                 _runner.RequestStop();
             }
             _player.CloseAndJoin();
+        }
+
+        private void mnuContextRestoreDefaults_Click(object sender, EventArgs e)
+        {
+            DeleteConfigFile();
+            ApplyConfig(LoadConfig());
+        }
+
+        private void mnuContextSetProsignKeys_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuContextAbout_Click(object sender, EventArgs e)
+        {
+            About about = new About();
+            about.ShowDialog();
         }
     }
 }

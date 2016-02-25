@@ -1,4 +1,22 @@
-﻿using System;
+﻿/*
+    Morse Trainer
+    Copyright (C) 2016 Mark Hamann
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,13 +59,41 @@ namespace MorseTrainer
             StopRequest
         }
 
+        /// <summary>
+        /// The minimum duration for sending in seconds
+        /// </summary>
         public const int MIN_DURATION = 30;
+
+        /// <summary>
+        /// The maximum duration for sending in seconds
+        /// </summary>
         public const int MAX_DURATION = 60*10;
+
+        /// <summary>
+        /// The minimum start delay for sending in seconds
+        /// </summary>
         public const int MIN_START_DELAY = 0;
+
+        /// <summary>
+        /// The maximum start delay for sending in seconds
+        /// </summary>
         public const int MAX_START_DELAY = 5;
+
+
+        /// <summary>
+        /// The minimum stop delay for sending in seconds
+        /// </summary>
         public const int MIN_STOP_DELAY = 0;
+
+
+        /// <summary>
+        /// The maximum stop delay for sending in seconds
+        /// </summary>
         public const int MAX_STOP_DELAY = 5;
 
+        /// <summary>
+        /// Creates a runner for tracking the state of the training
+        /// </summary>
         public Runner()
         {
             _timer = new System.Timers.Timer();

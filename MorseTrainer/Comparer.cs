@@ -1,4 +1,22 @@
-﻿using System;
+﻿/*
+    Morse Trainer
+    Copyright (C) 2016 Mark Hamann
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +24,20 @@ using System.Threading.Tasks;
 
 namespace MorseTrainer
 {
+    /// <summary>
+    /// The Comparer class creates a MorseCompareResults object that shows the
+    /// difference between two strings.
+    /// </summary>
     public class Comparer
     {
         private static readonly int[] matchLengthThresholdArray = { 5, 3, 2 };
 
+        /// <summary>
+        /// Compares two strings and returns the results.
+        /// </summary>
+        /// <param name="sent">The sent string</param>
+        /// <param name="recorded">The string the user entered while listening</param>
+        /// <returns>Am objecxt with results</returns>
         public static MorseCompareResults Compare(string sent, string recorded)
         {
             const int SEARCH_AMOUNT = 20;

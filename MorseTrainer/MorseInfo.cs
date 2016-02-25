@@ -1,4 +1,22 @@
-﻿using System;
+﻿/*
+    Morse Trainer
+    Copyright (C) 2016 Mark Hamann
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +24,25 @@ using System.Threading.Tasks;
 
 namespace MorseTrainer
 {
-    public class MorseInfo
+    /// <summary>
+    /// MorseInfo is a static class that contains information about
+    /// Morse code
+    /// </summary>
+    public static class MorseInfo
     {
+        /// <summary>
+        /// A constant used as the BT prosign in strings
+        /// </summary>
         public const char PROSIGN_BT = '\x80';
+
+        /// <summary>
+        /// A constant used as the SK prosign in strings
+        /// </summary>
         public const char PROSIGN_SK = '\x81';
+
+        /// <summary>
+        /// A constant used as the AR prosign in strings
+        /// </summary>
         public const char PROSIGN_AR = '\x82';
 
         static MorseInfo()
@@ -104,6 +137,12 @@ namespace MorseTrainer
         private static String[] __conversions;
         private static int[] __elements;
 
+        /// <summary>
+        /// Gets the number of dot-length elements in the character c.
+        /// There is 1 per dot, 3 per dash, and 1 for each space between the.
+        /// </summary>
+        /// <param name="c">A character</param>
+        /// <returns></returns>
         public static int ToElements(Char c)
         {
             if (c < 0 || c >= __elements.Length)
@@ -113,6 +152,12 @@ namespace MorseTrainer
             return __elements[c];
         }
 
+        /// <summary>
+        /// Converts the character 'c' to Morse code using '.' and '-'.
+        /// The ' ' is used for the space
+        /// </summary>
+        /// <param name="c">An ascii character or prosign constant</param>
+        /// <returns>A string of /[.-]+| /</returns>
         public static String ToMorse(Char c)
         {
             if (c < 0 || c >= __elements.Length)
@@ -123,6 +168,12 @@ namespace MorseTrainer
             return s;
         }
 
+        /// <summary>
+        /// Converts a string with expanded prosigns into a string containing
+        /// the prosign constants
+        /// </summary>
+        /// <param name="expandedProsigns">A string with expanded prosigns</param>
+        /// <returns>A string with prosign constants</returns>
         public static String ReplaceProsigns(String expandedProsigns)
         {
             String replaced = expandedProsigns;
@@ -134,6 +185,13 @@ namespace MorseTrainer
             }
             return replaced;
         }
+
+        /// <summary>
+        /// Converts a string with prosign constants into a string containing
+        /// the expanded prosigns
+        /// </summary>
+        /// <param name="valuedProsigns">A string with prosign constants</param>
+        /// <returns>A string with expanded prosigns</returns>
         public static String ExpandProsigns(String valuedProsigns)
         {
             String replaced = valuedProsigns;
