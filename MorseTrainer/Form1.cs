@@ -54,6 +54,7 @@ namespace MorseTrainer
             _analyzer = new Analyzer(txtAnalysis);
             _builder = new WordToToneBuilder(_toneGenerator);
             _recorded = new StringBuilder();
+            _dlgAssigner = new ProsignKeyAssigner();
 
             // Do initialization
             FrequencyInitialize(
@@ -189,6 +190,10 @@ namespace MorseTrainer
             cmbKoch.SelectedIndex = config.KochIndex;
             chkFavorNew.Checked = config.FavorNew;
             txtCustom.Text = config.Custom;
+
+            _dlgAssigner.Key_BT = config.ProsignBT;
+            _dlgAssigner.Key_SK = config.ProsignSK;
+            _dlgAssigner.Key_AR = config.ProsignAR;
         }
 
         private Config ExtractConfig()
@@ -207,6 +212,10 @@ namespace MorseTrainer
             config.KochIndex = (UInt16)cmbKoch.SelectedIndex;
             config.FavorNew = chkFavorNew.Checked;
             config.Custom = txtCustom.Text;
+
+            config.ProsignBT = _dlgAssigner.Key_BT;
+            config.ProsignSK = _dlgAssigner.Key_SK;
+            config.ProsignAR = _dlgAssigner.Key_AR;
 
             return config;
         }
@@ -1226,7 +1235,7 @@ namespace MorseTrainer
 
         private void mnuContextSetProsignKeys_Click(object sender, EventArgs e)
         {
-
+            _dlgAssigner.ShowDialog();
         }
 
         private void mnuContextAbout_Click(object sender, EventArgs e)
@@ -1240,6 +1249,18 @@ namespace MorseTrainer
         private bool UserKey(char key)
         {
             bool processed = false;
+            if (key == _dlgAssigner.Key_BT)
+            {
+                key = MorseInfo.PROSIGN_BT;
+            }
+            else if (key == _dlgAssigner.Key_SK)
+            {
+                key = MorseInfo.PROSIGN_SK;
+            }
+            else if (key == _dlgAssigner.Key_AR)
+            {
+                key = MorseInfo.PROSIGN_AR;
+            }
             String expanded = MorseInfo.ExpandProsigns(key.ToString()).ToUpperInvariant();
             txtAnalysis.AppendText(expanded);
             _recorded.Append(expanded);
@@ -1265,6 +1286,7 @@ namespace MorseTrainer
         private Runner _runner;
         private Analyzer _analyzer;
         private StringBuilder _recorded;
+        private ProsignKeyAssigner _dlgAssigner;
 
         #endregion
     }

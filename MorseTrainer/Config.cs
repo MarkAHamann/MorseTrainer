@@ -49,6 +49,10 @@ namespace MorseTrainer
             Default._favorNew = true;
             Default._custom = "";
 
+            Default._prosignBT = '[';
+            Default._prosignSK = ']';
+            Default._prosignAR = '\\';
+
             Default._version = CurrentVersion;
         }
 
@@ -323,6 +327,57 @@ namespace MorseTrainer
             set
             {
                 _favorNew = value;
+            }
+        }
+
+        private Char _prosignBT;
+
+        /// <summary>
+        /// Gets or sets the key that will be used to enter the BT prosign
+        /// </summary>
+        public Char ProsignBT
+        {
+            get
+            {
+                return _prosignBT;
+            }
+            set
+            {
+                _prosignBT = value;
+            }
+        }
+
+        private Char _prosignSK;
+
+        /// <summary>
+        /// Gets or sets the key that will be used to enter the SK prosign
+        /// </summary>
+        public Char ProsignSK
+        {
+            get
+            {
+                return _prosignSK;
+            }
+            set
+            {
+                _prosignSK = value;
+            }
+        }
+
+        private Char _prosignAR;
+
+        /// <summary>
+        /// Gets or sets the key that will be used to enter the AR prosign
+        /// </summary>
+        public Char ProsignAR
+        {
+            get
+            {
+                return _prosignAR;
+            }
+            set
+            {
+                _prosignAR = value;
             }
         }
     }
