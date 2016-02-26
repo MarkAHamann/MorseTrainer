@@ -119,8 +119,9 @@ namespace MorseTrainer
             _runner.StopDelayEnter += _runner_StopDelayEnter;
             _runner.StopDelayExit += _runner_StopDelayExit;
             _runner.Abort += _runner_Abort;
-            _player.QueueEmpty += _player_QueueEmpty;
+            _player.Dequeued += _player_Dequeued;
             _player.PlayingFinished += _player_PlayingFinished;
+            _toneGenerator.UpdateRequired += _toneGenerator_UpdateRequired;
 
             cmbKoch.Items.Clear();
             for (int i = 0; i < Koch.Length; ++i)
@@ -216,8 +217,7 @@ namespace MorseTrainer
         {
             if (_runner.IsRunning)
             {
-                _pendingWavestream = null;
-                _player.Clear();
+                _player.ClearQueue();
                 btnStartStop.Enabled = false;
                 _runner.RequestStop();
             }
@@ -234,13 +234,18 @@ namespace MorseTrainer
 
         private void FirstWaveReadyCallback(IAsyncResult result)
         {
-            _pendingWavestream = (WaveStream)result.AsyncState;
+            WaveStream waveStream = (WaveStream)result.AsyncState;
+            _player.Enqueue(waveStream);
             _runner.RequestStart();
         }
 
         private void WaveReadyCallback(IAsyncResult result)
         {
-            _pendingWavestream = (WaveStream)result.AsyncState;
+            WaveStream waveStream = (WaveStream)result.AsyncState;
+            if (waveStream != null)
+            {
+                _player.Enqueue(waveStream);
+            }
         }
 
         private void _runner_StartDelayEnter(object sender, EventArgs e)
@@ -253,19 +258,26 @@ namespace MorseTrainer
 
         private void _runner_MorseEnter(object sender, EventArgs e)
         {
-            _player.Start(_pendingWavestream);
-            _pendingWavestream = null;
+            _player.Start();
             String word = _charGenerator.CreateRandomString();
             _builder.StartBuildAsync(word, new AsyncCallback(WaveReadyCallback));
         }
 
-        private void _player_QueueEmpty(object sender, EventArgs e)
+        private void _player_Dequeued(object sender, EventArgs e)
         {
             if (_runner.ContinueMorse)
             {
-                _player.Enqueue(_pendingWavestream);
                 _builder.StartBuildAsync(_charGenerator.CreateRandomString(), new AsyncCallback(WaveReadyCallback));
             }
+        }
+
+        private void _toneGenerator_UpdateRequired(object sender, EventArgs e)
+        {
+            // This indicates that the tone has changed. If we are currently sending code,
+            // we need to remove any queued tones and in progress tones and send new tones instead
+            _toneGenerator.Update();
+            _player.ClearQueue();
+            _builder.StartBuildAsync(_charGenerator.CreateRandomString(), new AsyncCallback(WaveReadyCallback));
         }
 
         private void _player_PlayingFinished(object sender, EventArgs e)
@@ -275,6 +287,8 @@ namespace MorseTrainer
 
         private void _runner_MorseExit(object sender, EventArgs e)
         {
+            _player.Stop();
+            _player.ClearQueue();
         }
 
         private void _runner_StopDelayEnter(object sender, EventArgs e)
@@ -1251,7 +1265,6 @@ namespace MorseTrainer
         private Runner _runner;
         private Analyzer _analyzer;
         private StringBuilder _recorded;
-        private WaveStream _pendingWavestream;
 
         #endregion
     }

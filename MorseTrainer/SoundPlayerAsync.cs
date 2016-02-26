@@ -36,6 +36,7 @@ namespace MorseTrainer
         /// </summary>
         public SoundPlayerAsync()
         {
+            _sending = false;
             _mediaSoundPlayer = new System.Media.SoundPlayer();
             _queue = new Queue<WaveStream>();
             _sentString = new StringBuilder();
@@ -50,24 +51,36 @@ namespace MorseTrainer
         {
             while (!_stopThread)
             {
-                WaveStream waveToPlay = Dequeue();
-                if (waveToPlay != null)
+                bool go = false;
+                lock (this)
                 {
-                    _mediaSoundPlayer.Stream = waveToPlay.Stream;
-                    _mediaSoundPlayer.Load();
-                    _mediaSoundPlayer.PlaySync();
-                    _sentString.Append(waveToPlay.Text);
-                    _sentString.Append(' ');
-                    // All done
-                    if (Count == 0)
+                    if (!_sending)
                     {
-                        OnPlayingFinished();
+                        System.Threading.Monitor.Wait(this);
+                    }
+                    go = _sending && !_stopThread;
+                }
+                if (go)
+                {
+                    WaveStream waveToPlay = Dequeue();
+                    if (waveToPlay != null)
+                    {
+                        _mediaSoundPlayer.Stream = waveToPlay.Stream;
+                        _mediaSoundPlayer.Load();
+                        _mediaSoundPlayer.PlaySync();
+                        _sentString.Append(waveToPlay.Text);
+                        _sentString.Append(' ');
+                        // All done
+                        if (Count == 0)
+                        {
+                            OnPlayingFinished();
+                        }
                     }
                 }
             }
             lock(this)
             {
-                _stopped = true;
+                _threadStopped = true;
                 System.Threading.Monitor.Pulse(this);
             }
         }
@@ -86,7 +99,7 @@ namespace MorseTrainer
                     wave = _queue.Dequeue();
                     if (_queue.Count == 0)
                     {
-                        OnQueueEmpty();
+                        OnDequeued();
                     }
                 }
             }
@@ -96,11 +109,21 @@ namespace MorseTrainer
         /// <summary>
         /// Puts a WAV onto the queue and resets the strings
         /// </summary>
-        /// <param name="wave">A WaveStream</param>
-        public void Start(WaveStream wave)
+        public void Start()
         {
-            Enqueue(wave);
-            _sentString.Clear();
+            lock(this)
+            {
+                _sending = true;
+                _sentString.Clear();
+            }
+        }
+
+        public void Stop()
+        {
+            lock(this)
+            {
+                _sending = false;
+            }
         }
 
         /// <summary>
@@ -129,9 +152,9 @@ namespace MorseTrainer
         }
 
         /// <summary>
-        /// Clear all waves from the queue when aborting
+        /// ClearQueue all waves from the queue when aborting
         /// </summary>
-        public void Clear()
+        public void ClearQueue()
         {
             lock(this)
             {
@@ -168,12 +191,12 @@ namespace MorseTrainer
         }
 
         /// <summary>
-        /// The queue has been emptied. Action in this should be quick
+        /// The queue has been dequeued. Action in this should be quick
         /// </summary>
-        public event EventHandler QueueEmpty;
-        protected void OnQueueEmpty()
+        public event EventHandler Dequeued;
+        protected void OnDequeued()
         {
-            EventHandler handler = QueueEmpty;
+            EventHandler handler = Dequeued;
             if (handler != null)
             {
                 handler(this, EventArgs.Empty);
@@ -190,10 +213,10 @@ namespace MorseTrainer
                 if (_thread != null && !_stopThread)
                 {
                     _stopThread = true;
-                    _stopped = false;
+                    _threadStopped = false;
                     _queue.Clear();
                     System.Threading.Monitor.Pulse(this);
-                    if (!_stopped)
+                    if (!_threadStopped)
                     {
                         System.Threading.Monitor.Wait(this);
                     }
@@ -206,7 +229,9 @@ namespace MorseTrainer
 
         private System.Threading.Thread _thread;
         private bool _stopThread;
-        private bool _stopped;
+        private bool _threadStopped;
+
+        private bool _sending;
         private Queue<WaveStream> _queue;
         private System.Media.SoundPlayer _mediaSoundPlayer;
         private StringBuilder _sentString;

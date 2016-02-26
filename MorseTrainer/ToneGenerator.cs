@@ -85,6 +85,7 @@ namespace MorseTrainer
             _WPM = 0;
             _farnsworthWPM = 0;
             _volume = 0.0f;
+            _updateRequired = true;
         }
 
         private float WpmToMillesecPerElement(float wpm)
@@ -102,24 +103,57 @@ namespace MorseTrainer
         /// </summary>
         public void Update()
         {
-            // changing tone frequency or WPM will cause the tones to be regenerated
-            if (_frequency == 0 || _frequency != _newFrequency || _newWPM != _WPM || _newVolume != _volume)
+            if (_updateRequired)
             {
-                _volume = _newVolume;
-                _frequency = _newFrequency;
-                _WPM = _newWPM;
-                // ms per element = WPM * 1000 ms per sec / 60 words per second / 50 elements
-                _msPerElement = WpmToMillesecPerElement(_WPM);
+                _updateRequired = false;
 
-                float samplesPerCycle = SAMPLES_PER_SECOND / _frequency;
+                // changing tone frequency or WPM will cause the tones to be regenerated
+                if (_frequency == 0 || _frequency != _newFrequency || _newWPM != _WPM || _newVolume != _volume)
+                {
+                    _volume = _newVolume;
+                    _frequency = _newFrequency;
+                    _WPM = _newWPM;
+                    // ms per element = WPM * 1000 ms per sec / 60 words per second / 50 elements
+                    _msPerElement = WpmToMillesecPerElement(_WPM);
 
-                _samplesPerCycle = (UInt16)(samplesPerCycle + 0.5);
-                CreateTones();
+                    float samplesPerCycle = SAMPLES_PER_SECOND / _frequency;
+
+                    _samplesPerCycle = (UInt16)(samplesPerCycle + 0.5);
+                    CreateTones();
+                }
+                if (_farnsworthWPM == 0 || _farnsworthWPM != _newFarnsworthWPM)
+                {
+                    _farnsworthWPM = _newFarnsworthWPM;
+                    _msPerFarnsworthElement = WpmToMillesecPerElement(_farnsworthWPM);
+                }
             }
-            if (_farnsworthWPM == 0 || _farnsworthWPM != _newFarnsworthWPM)
+        }
+
+        /// <summary>
+        /// The user has made a change that will require an update
+        /// </summary>
+        public event EventHandler UpdateRequired;
+        protected void OnUpdateRequired()
+        {
+            if (!_updateRequired)
             {
-                _farnsworthWPM = _newFarnsworthWPM;
-                _msPerFarnsworthElement = WpmToMillesecPerElement(_farnsworthWPM);
+                _updateRequired = true;
+                EventHandler handler = UpdateRequired;
+                if (handler != null)
+                {
+                    handler(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets if there is a required update to generated tones
+        /// </summary>
+        public bool IsUpdateRequired
+        {
+            get
+            {
+                return _updateRequired;
             }
         }
 
@@ -150,6 +184,7 @@ namespace MorseTrainer
                     throw new ArgumentOutOfRangeException("Frequency");
                 }
                 _newFrequency = value;
+                OnUpdateRequired();
             }
         }
 
@@ -169,6 +204,7 @@ namespace MorseTrainer
                     throw new ArgumentOutOfRangeException("Volume");
                 }
                 _newVolume = value;
+                OnUpdateRequired();
             }
         }
 
@@ -199,6 +235,7 @@ namespace MorseTrainer
                     throw new ArgumentOutOfRangeException("WPM");
                 }
                 _newWPM = (float)Math.Round(value * 2) / 2;
+                OnUpdateRequired();
             }
         }
 
@@ -229,6 +266,7 @@ namespace MorseTrainer
                     throw new ArgumentOutOfRangeException("WPM");
                 }
                 _newFarnsworthWPM = (float)Math.Round(value * 2) / 2;
+                OnUpdateRequired();
             }
         }
 
@@ -382,6 +420,7 @@ namespace MorseTrainer
             return CreateSpace(difference);
         }
 
+        private bool _updateRequired;
         private UInt16 _frequency;
         private UInt16 _newFrequency;
         private float _WPM;
