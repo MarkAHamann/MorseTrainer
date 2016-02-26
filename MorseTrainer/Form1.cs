@@ -41,6 +41,7 @@ namespace MorseTrainer
 
         private static readonly String CONFIG_FILE_NAME = "config.cfg";
 
+        #region Form Maintenance
         public Form1()
         {
             InitializeComponent();
@@ -127,71 +128,23 @@ namespace MorseTrainer
                 cmbKoch.Items.Add(MorseInfo.ExpandProsigns(Koch.Order[i].ToString()));
             }
 
-            Config config = LoadConfig();
+            Config config = Config.Load(CONFIG_FILE_NAME);
             ApplyConfig(config);
         }
 
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Config.Save(ExtractConfig(), CONFIG_FILE_NAME);
+            if (_runner.IsRunning)
+            {
+                _runner.RequestStop();
+            }
+            _player.CloseAndJoin();
+        }
+
+        #endregion
+
         #region Configuration
-        private void DeleteConfigFile()
-        {
-            if (System.IO.File.Exists(CONFIG_FILE_NAME))
-            {
-                System.IO.File.Delete(CONFIG_FILE_NAME);
-            }
-        }
-
-        private Config LoadConfig()
-        {
-            Config config = null;
-
-            if (!System.IO.File.Exists(CONFIG_FILE_NAME))
-            {
-                SaveConfig(Config.Default);
-            }
-
-            System.IO.Stream stream = null;
-            try
-            {
-                stream = System.IO.File.Open(CONFIG_FILE_NAME, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.None);
-                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                config = (Config)bf.Deserialize(stream);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                if (stream != null)
-                {
-                    stream.Close();
-                }
-            }
-            return config;
-        }
-
-        private void SaveConfig(Config config)
-        {
-            System.IO.Stream stream = null;
-            try
-            {
-                stream = System.IO.File.Open(CONFIG_FILE_NAME, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None);
-                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                bf.Serialize(stream, config);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                if (stream != null)
-                {
-                    stream.Close();
-                }
-            }
-        }
-
         private void ApplyConfig(Config config)
         {
             Frequency = config.Frequency;
@@ -357,12 +310,15 @@ namespace MorseTrainer
         }
         #endregion
 
+        #region Analysis
         private void Analyze()
         {
             String sent = _player.Sent;
             String recorded = _recorded.ToString();
             _analyzer.Analyze(sent, recorded);
         }
+
+        #endregion
 
         #region User Interface
 
@@ -1247,6 +1203,24 @@ namespace MorseTrainer
 
         #endregion
 
+        #region Context Menu Items
+        private void mnuContextRestoreDefaults_Click(object sender, EventArgs e)
+        {
+            Config.Delete(CONFIG_FILE_NAME);
+            ApplyConfig(Config.Load(CONFIG_FILE_NAME));
+        }
+
+        private void mnuContextSetProsignKeys_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuContextAbout_Click(object sender, EventArgs e)
+        {
+            About about = new About();
+            about.ShowDialog();
+        }
+        #endregion
 
         #region User Key
         private bool UserKey(char key)
@@ -1269,6 +1243,7 @@ namespace MorseTrainer
         }
         #endregion
 
+        #region Private Fields
         private ToneGenerator _toneGenerator;
         private CharGenerator _charGenerator;
         private WordToToneBuilder _builder;
@@ -1278,31 +1253,6 @@ namespace MorseTrainer
         private StringBuilder _recorded;
         private WaveStream _pendingWavestream;
 
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            SaveConfig(ExtractConfig());
-            if (_runner.IsRunning)
-            {
-                _runner.RequestStop();
-            }
-            _player.CloseAndJoin();
-        }
-
-        private void mnuContextRestoreDefaults_Click(object sender, EventArgs e)
-        {
-            DeleteConfigFile();
-            ApplyConfig(LoadConfig());
-        }
-
-        private void mnuContextSetProsignKeys_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void mnuContextAbout_Click(object sender, EventArgs e)
-        {
-            About about = new About();
-            about.ShowDialog();
-        }
+        #endregion
     }
 }

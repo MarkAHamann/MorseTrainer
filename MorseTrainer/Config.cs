@@ -31,6 +31,7 @@ namespace MorseTrainer
     public class Config
     {
         public static readonly Config Default;
+        public const int CurrentVersion = 1;
 
         static Config()
         {
@@ -47,6 +48,95 @@ namespace MorseTrainer
             Default._kochIndex = 1;
             Default._favorNew = true;
             Default._custom = "";
+
+            Default._version = CurrentVersion;
+        }
+
+        /// <summary>
+        /// Loads the configuration at path. Creates a default if it doesn't exist.
+        /// </summary>
+        /// <param name="path">Path to the config file</param>
+        /// <returns>A Config object</returns>
+        public static Config Load(String path)
+        {
+            Config config = null;
+
+            if (!System.IO.File.Exists(path))
+            {
+                Config.Save(Config.Default, path);
+            }
+
+            System.IO.Stream stream = null;
+            try
+            {
+                stream = System.IO.File.Open(path, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.None);
+                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                config = (Config)bf.Deserialize(stream);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                if (stream != null)
+                {
+                    stream.Close();
+                }
+            }
+            return config;
+        }
+
+        /// <summary>
+        /// Saves a configuration to path
+        /// </summary>
+        /// <param name="config">A config object</param>
+        /// <param name="path">Path to the config file</param>
+        public static void Save(Config config, String path)
+        {
+            System.IO.Stream stream = null;
+            try
+            {
+                stream = System.IO.File.Open(path, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None);
+                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                bf.Serialize(stream, config);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (stream != null)
+                {
+                    stream.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Deletes the config file at path
+        /// </summary>
+        /// <param name="path">Path to the config file</param>
+        public static void Delete(String path)
+        {
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+        }
+
+        private int _version;
+
+        /// <summary>
+        /// Gets the version of the Config file
+        /// </summary>
+        public int Version
+        {
+            get
+            {
+                return _version;
+            }
         }
 
         private UInt16 _frequency;
