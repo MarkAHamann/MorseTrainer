@@ -29,7 +29,7 @@ namespace MorseTrainer
     /// Flags that indicate how to display results
     /// </summary>
     [Flags]
-    public enum ResultsDisplayFlags
+    public enum ResultsFlags
     {
         /// <summary>
         /// Display characters that were received as sent
@@ -148,7 +148,15 @@ namespace MorseTrainer
         /// </summary>
         /// <param name="flags">Flags saying which characters to include</param>
         /// <returns></returns>
-        public abstract String Str(ResultsDisplayFlags flags = ResultsDisplayFlags.All);
+        public abstract String Str(ResultsFlags flags = ResultsFlags.All);
+
+        /// <summary>
+        /// Gets information about the string
+        /// </summary>
+        public abstract ResultsFlags ResultInfo
+        {
+            get;
+        }
 
         protected string _str;
     }
@@ -163,14 +171,22 @@ namespace MorseTrainer
         {
         }
 
-        public override string Str(ResultsDisplayFlags flags)
+        public override string Str(ResultsFlags flags)
         {
             String ret = "";
-            if ((flags & ResultsDisplayFlags.Valid) != 0)
+            if ((flags & ResultsFlags.Valid) != 0)
             {
                 ret = MorseInfo.ExpandProsigns(_str);
             }
             return ret;
+        }
+
+        public override ResultsFlags ResultInfo
+        {
+            get
+            {
+                return ResultsFlags.Valid;
+            }
         }
 
         public override Color Color
@@ -192,14 +208,22 @@ namespace MorseTrainer
         {
         }
 
-        public override string Str(ResultsDisplayFlags flags)
+        public override string Str(ResultsFlags flags)
         {
             String ret = "";
-            if ((flags & ResultsDisplayFlags.Dropped) != 0)
+            if ((flags & ResultsFlags.Dropped) != 0)
             {
                 ret = MorseInfo.ExpandProsigns(_str);
             }
             return ret;
+        }
+
+        public override ResultsFlags ResultInfo
+        {
+            get
+            {
+                return ResultsFlags.Dropped;
+            }
         }
 
         public override Color Color
@@ -221,14 +245,22 @@ namespace MorseTrainer
         {
         }
 
-        public override string Str(ResultsDisplayFlags flags)
+        public override string Str(ResultsFlags flags)
         {
             String ret = "";
-            if ((flags & ResultsDisplayFlags.Extra) != 0)
+            if ((flags & ResultsFlags.Extra) != 0)
             {
                 ret = MorseInfo.ExpandProsigns(_str);
             }
             return ret;
+        }
+
+        public override ResultsFlags ResultInfo
+        {
+            get
+            {
+                return ResultsFlags.Extra;
+            }
         }
 
         public override Color Color

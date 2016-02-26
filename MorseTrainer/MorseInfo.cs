@@ -130,8 +130,19 @@ namespace MorseTrainer
                 }
                 __elements[i] = elements;
             }
+
+            List<Char> hasConversion = new List<char>();
+            for (int i=0; i<256; i++)
+            {
+                if (__conversions[i] != null)
+                {
+                    hasConversion.Add((Char)i);
+                }
+            }
+            __orderedPossibleCharacters = hasConversion.ToArray<Char>();
         }
 
+        private static readonly Char[] __orderedPossibleCharacters;
         private static Dictionary<String, char> __prosignExpansionToValue;
         private static Dictionary<char, String> __prosignValueToExpansion;
         private static String[] __conversions;
@@ -190,6 +201,24 @@ namespace MorseTrainer
         /// Converts a string with prosign constants into a string containing
         /// the expanded prosigns
         /// </summary>
+        /// <param name="c">A char with prosign constants</param>
+        /// <returns>A string with expanded prosigns</returns>
+        public static String ExpandProsigns(Char c)
+        {
+            String replaced = c.ToString();
+            foreach (KeyValuePair<String, char> kv in __prosignExpansionToValue)
+            {
+                String expansion = kv.Key;
+                String value = kv.Value.ToString();
+                replaced = replaced.Replace(value, expansion);
+            }
+            return replaced;
+        }
+
+        /// <summary>
+        /// Converts a string with prosign constants into a string containing
+        /// the expanded prosigns
+        /// </summary>
         /// <param name="valuedProsigns">A string with prosign constants</param>
         /// <returns>A string with expanded prosigns</returns>
         public static String ExpandProsigns(String valuedProsigns)
@@ -202,6 +231,17 @@ namespace MorseTrainer
                 replaced = replaced.Replace(value, expansion);
             }
             return replaced;
+        }
+
+        /// <summary>
+        /// Gets an array of possible characters in ASCII/prosign order
+        /// </summary>
+        public static Char[] PossibleCharacters
+        {
+            get
+            {
+                return __orderedPossibleCharacters;
+            }
         }
     }
 }

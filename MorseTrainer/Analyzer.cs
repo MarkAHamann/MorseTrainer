@@ -35,8 +35,14 @@ namespace MorseTrainer
         {
             _resultsRTB.Clear();
             MorseCompareResults results = Comparer.Compare(sent, recorded);
+            ShowStrings(results);
+            ShowStats(results);
+        }
+
+        private void ShowStrings(MorseCompareResults results)
+        {
             Write("I sent   : ");
-            ResultsDisplayFlags flags = ResultsDisplayFlags.Valid | ResultsDisplayFlags.Dropped;
+            ResultsFlags flags = ResultsFlags.Valid | ResultsFlags.Dropped;
             foreach (MorseSubstring substring in results.SubStrings)
             {
                 Write(substring.Str(flags), substring.Color);
@@ -44,13 +50,59 @@ namespace MorseTrainer
             Write(Environment.NewLine);
 
             Write("You typed: ");
-            flags = ResultsDisplayFlags.Valid | ResultsDisplayFlags.Extra;
+            flags = ResultsFlags.Valid | ResultsFlags.Extra;
             foreach (MorseSubstring substring in results.SubStrings)
             {
                 Write(substring.Str(flags), substring.Color);
             }
             Write(Environment.NewLine);
+        }
 
+        private void ShowStats(MorseCompareResults results)
+        {
+            int[] sent = new int[256];
+            int[] valid = new int[256];
+            int[] dropped = new int[256];
+            int[] extra = new int[256];
+            int totalValid = 0;
+
+            foreach (char c in results.Sent)
+            {
+                sent[c]++;
+            }
+            foreach (MorseSubstring substring in results.SubStrings)
+            {
+                int[] counter = null;
+                switch (substring.ResultInfo & ResultsFlags.All)
+                {
+                    case ResultsFlags.Dropped:
+                        counter = dropped;
+                        break;
+                    case ResultsFlags.Extra:
+                        counter = extra;
+                        break;
+                    case ResultsFlags.Valid:
+                        counter = valid;
+                        totalValid += substring.Chars.Length;
+                        break;
+                }
+                if (counter != null)
+                {
+                    foreach (char c in substring.Chars)
+                    {
+                        counter[c]++;
+                    }
+                }
+            }
+
+            Write(String.Format("Sent {0} and {1} recorded valid: {2}%" + Environment.NewLine, results.Sent.Length, totalValid, (float)totalValid / (float)results.Sent.Length));
+            foreach (char c in MorseInfo.PossibleCharacters)
+            {
+                if (sent[c] != 0 || extra[c] != 0)
+                {
+                    Write(String.Format(" {0} {1}/{2} : {3},{4}" + Environment.NewLine, MorseInfo.ExpandProsigns(c), valid[c], sent[c], dropped[c], extra[c]));
+                }
+            }
         }
 
         private void Write(String text)
