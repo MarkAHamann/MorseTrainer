@@ -52,7 +52,6 @@
             this.txtAnalysis = new System.Windows.Forms.RichTextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.sliderStartDelay = new System.Windows.Forms.TrackBar();
             this.sliderStopDelay = new System.Windows.Forms.TrackBar();
             this.txtFrequency = new System.Windows.Forms.TextBox();
@@ -74,6 +73,9 @@
             this.mnuContextRestoreDefaults = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuContextSetProsignKeys = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuContextAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.radPaper = new System.Windows.Forms.RadioButton();
+            this.radTimed = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.sliderFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderWPM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderDuration)).BeginInit();
@@ -82,6 +84,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.sliderStopDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderVolume)).BeginInit();
             this.mnuStrip.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -194,15 +197,6 @@
             this.label6.TabIndex = 10;
             this.label6.Text = "Start Delay";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(357, 188);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(87, 20);
-            this.label7.TabIndex = 11;
-            this.label7.Text = "Stop Delay";
-            // 
             // sliderStartDelay
             // 
             this.sliderStartDelay.Location = new System.Drawing.Point(147, 185);
@@ -268,7 +262,7 @@
             // btnKoch
             // 
             this.btnKoch.AutoSize = true;
-            this.btnKoch.Location = new System.Drawing.Point(24, 484);
+            this.btnKoch.Location = new System.Drawing.Point(8, 19);
             this.btnKoch.Name = "btnKoch";
             this.btnKoch.Size = new System.Drawing.Size(70, 24);
             this.btnKoch.TabIndex = 19;
@@ -280,7 +274,7 @@
             // btnCustom
             // 
             this.btnCustom.AutoSize = true;
-            this.btnCustom.Location = new System.Drawing.Point(24, 522);
+            this.btnCustom.Location = new System.Drawing.Point(8, 57);
             this.btnCustom.Name = "btnCustom";
             this.btnCustom.Size = new System.Drawing.Size(89, 24);
             this.btnCustom.TabIndex = 20;
@@ -292,7 +286,7 @@
             // cmbKoch
             // 
             this.cmbKoch.FormattingEnabled = true;
-            this.cmbKoch.Location = new System.Drawing.Point(139, 483);
+            this.cmbKoch.Location = new System.Drawing.Point(123, 18);
             this.cmbKoch.Name = "cmbKoch";
             this.cmbKoch.Size = new System.Drawing.Size(100, 28);
             this.cmbKoch.TabIndex = 21;
@@ -300,7 +294,7 @@
             // 
             // txtCustom
             // 
-            this.txtCustom.Location = new System.Drawing.Point(139, 522);
+            this.txtCustom.Location = new System.Drawing.Point(123, 57);
             this.txtCustom.Name = "txtCustom";
             this.txtCustom.Size = new System.Drawing.Size(602, 26);
             this.txtCustom.TabIndex = 22;
@@ -308,7 +302,7 @@
             // chkFavorNew
             // 
             this.chkFavorNew.AutoSize = true;
-            this.chkFavorNew.Location = new System.Drawing.Point(259, 484);
+            this.chkFavorNew.Location = new System.Drawing.Point(243, 19);
             this.chkFavorNew.Name = "chkFavorNew";
             this.chkFavorNew.Size = new System.Drawing.Size(192, 24);
             this.chkFavorNew.TabIndex = 23;
@@ -388,22 +382,57 @@
             this.mnuContextAbout.Text = "About...";
             this.mnuContextAbout.Click += new System.EventHandler(this.mnuContextAbout_Click);
             // 
+            // radPaper
+            // 
+            this.radPaper.AutoSize = true;
+            this.radPaper.Location = new System.Drawing.Point(361, 216);
+            this.radPaper.Name = "radPaper";
+            this.radPaper.Size = new System.Drawing.Size(76, 24);
+            this.radPaper.TabIndex = 29;
+            this.radPaper.Text = "Paper";
+            this.radPaper.UseVisualStyleBackColor = true;
+            this.radPaper.Click += new System.EventHandler(this.radTimedPaper_Click);
+            // 
+            // radTimed
+            // 
+            this.radTimed.AutoSize = true;
+            this.radTimed.Checked = true;
+            this.radTimed.Location = new System.Drawing.Point(361, 186);
+            this.radTimed.Name = "radTimed";
+            this.radTimed.Size = new System.Drawing.Size(77, 24);
+            this.radTimed.TabIndex = 30;
+            this.radTimed.TabStop = true;
+            this.radTimed.Text = "Timed";
+            this.radTimed.UseVisualStyleBackColor = true;
+            this.radTimed.Click += new System.EventHandler(this.radTimedPaper_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.chkFavorNew);
+            this.groupBox1.Controls.Add(this.txtCustom);
+            this.groupBox1.Controls.Add(this.cmbKoch);
+            this.groupBox1.Controls.Add(this.btnCustom);
+            this.groupBox1.Controls.Add(this.btnKoch);
+            this.groupBox1.Location = new System.Drawing.Point(21, 471);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(735, 94);
+            this.groupBox1.TabIndex = 31;
+            this.groupBox1.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(941, 580);
             this.ContextMenuStrip = this.mnuStrip;
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.radTimed);
+            this.Controls.Add(this.radPaper);
             this.Controls.Add(this.txtVolume);
             this.Controls.Add(this.txtStopDelay);
             this.Controls.Add(this.txtStartDelay);
             this.Controls.Add(this.sliderVolume);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.chkFavorNew);
-            this.Controls.Add(this.txtCustom);
-            this.Controls.Add(this.cmbKoch);
-            this.Controls.Add(this.btnCustom);
-            this.Controls.Add(this.btnKoch);
             this.Controls.Add(this.btnStartStop);
             this.Controls.Add(this.txtDuration);
             this.Controls.Add(this.txtFarnsworth);
@@ -411,7 +440,6 @@
             this.Controls.Add(this.txtFrequency);
             this.Controls.Add(this.sliderStopDelay);
             this.Controls.Add(this.sliderStartDelay);
-            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtAnalysis);
@@ -436,6 +464,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.sliderStopDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderVolume)).EndInit();
             this.mnuStrip.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -454,7 +484,6 @@
         private System.Windows.Forms.RichTextBox txtAnalysis;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TrackBar sliderStartDelay;
         private System.Windows.Forms.TrackBar sliderStopDelay;
         private System.Windows.Forms.TextBox txtFrequency;
@@ -476,6 +505,9 @@
         private System.Windows.Forms.ToolStripMenuItem mnuContextRestoreDefaults;
         private System.Windows.Forms.ToolStripMenuItem mnuContextSetProsignKeys;
         private System.Windows.Forms.ToolStripMenuItem mnuContextAbout;
+        private System.Windows.Forms.RadioButton radPaper;
+        private System.Windows.Forms.RadioButton radTimed;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
 

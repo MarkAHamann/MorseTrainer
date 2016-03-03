@@ -52,8 +52,12 @@ namespace MorseTrainer
             // send is done, but finishing up the rest of the word
             SendFinished,
 
-            // send is 
+            // send is finished and counting down to end 
             StopDelay,
+
+            // send is finished and waiting for user to indicate the manual input is
+            // complete
+            PaperDelay,
 
             // stop requested
             StopRequest
@@ -103,6 +107,35 @@ namespace MorseTrainer
         }
 
         /// <summary>
+        /// Gets or sets the paper option. When true, the user must call
+        /// PaperCopyComplete to start analysis. When false, the timer
+        /// is used.
+        /// </summary>
+        public bool IsPaper
+        {
+            get
+            {
+                return _paper;
+            }
+            set
+            {
+                _paper = value;
+            }
+        }
+
+        /// <summary>
+        /// Call PaperCopyComplete when in IsPaper mode and the user is ready
+        /// to have the input analyzed
+        /// </summary>
+        public void PaperCopyComplete()
+        {
+            if (_state == State.PaperDelay)
+            {
+                StateExit();
+            }
+        }
+
+        /// <summary>
         /// Gets whether the runner is idle (false) or in one of the running states (true)
         /// </summary>
         public bool IsRunning
@@ -122,7 +155,8 @@ namespace MorseTrainer
             get
             {
                 return _state == State.Sending ||
-                    _state == State.SendFinished || 
+                    _state == State.SendFinished ||
+                    _state == State.PaperDelay ||
                     _state == State.StopDelay;
             }
         }
@@ -165,6 +199,10 @@ namespace MorseTrainer
                     OnStopDelayExit();
                     nextState = State.Idle;
                     break;
+                case State.PaperDelay:
+                    OnStopDelayExit();
+                    nextState = State.Idle;
+                    break;
             }
             return nextState;
         }
@@ -186,8 +224,15 @@ namespace MorseTrainer
                     OnMorseEnter();
                     break;
                 case State.StopDelay:
-                    _timer.Interval = _stopDelay * 1000;
-                    _timer.Start();
+                    if (_paper)
+                    {
+                        _state = State.PaperDelay;
+                    }
+                    else
+                    {
+                        _timer.Interval = _stopDelay * 1000;
+                        _timer.Start();
+                    }
                     OnStopDelayEnter();
                     break;
             }
@@ -378,6 +423,7 @@ namespace MorseTrainer
         private int _startDelay;
         private int _sendDuration;
         private int _stopDelay;
+        private bool _paper;
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls

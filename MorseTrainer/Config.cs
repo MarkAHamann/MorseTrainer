@@ -42,6 +42,7 @@ namespace MorseTrainer
             Default._duration = 60;
             Default._startDelay = 2;
             Default._stopDelay = 2;
+            Default._paper = false;
             Default._volume = 1.0f;
 
             Default._method = CharGenerator.Method.Koch;
@@ -244,6 +245,24 @@ namespace MorseTrainer
                 _stopDelay = value;
             }
         }
+
+        private bool _paper;
+
+        /// <summary>
+        /// Gets or sets the paper value which lets the user control when to analyze
+        /// </summary>
+        public bool Paper
+        {
+            get
+            {
+                return _paper;
+            }
+            set
+            {
+                _paper = value;
+            }
+        }
+
 
         private float _volume;
 

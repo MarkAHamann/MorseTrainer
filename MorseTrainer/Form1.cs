@@ -173,6 +173,15 @@ namespace MorseTrainer
             StopDelaySlider = config.StopDelay;
             StopDelayText = config.StopDelay;
 
+            if (config.Paper)
+            {
+                radPaper.Checked = true;
+            }
+            else
+            {
+                radTimed.Checked = true;
+            }
+
             Volume = config.Volume;
             VolumeSlider = config.Volume;
             VolumeText = config.Volume;
@@ -206,6 +215,7 @@ namespace MorseTrainer
 
             config.StartDelay = (UInt16)sliderStartDelay.Value;
             config.StopDelay = (UInt16)sliderStopDelay.Value;
+            config.Paper = radPaper.Checked;
             config.Volume = (float)sliderVolume.Value / 10.0f;
 
             config.GenerationMethod = btnKoch.Checked ? CharGenerator.Method.Koch : CharGenerator.Method.Custom;
@@ -230,9 +240,13 @@ namespace MorseTrainer
                 btnStartStop.Enabled = false;
                 _runner.RequestStop();
             }
+            //else if (_runner.IsListenMode && _runner.IsPaper)
+            //{
+            //}
             else
             {
                 _recorded.Clear();
+                _charGenerator.Custom = txtCustom.Text.ToUpperInvariant();
                 String word = _charGenerator.CreateRandomString();
                 _builder.StartBuildAsync(word, new AsyncCallback(FirstWaveReadyCallback));
                 btnStartStop.Text = "Stop";
@@ -303,6 +317,17 @@ namespace MorseTrainer
 
         private void _runner_StopDelayEnter(object sender, EventArgs e)
         {
+            if (_runner.IsPaper)
+            {
+                if (this.InvokeRequired)
+                {
+                    Invoke(new EventHandler(_runner_StopDelayEnter), sender, e);
+                }
+                else
+                {
+                    btnStartStop.Text = "Copied";
+                }
+            }
         }
 
         private void _runner_StopDelayExit(object sender, EventArgs e)
@@ -333,6 +358,12 @@ namespace MorseTrainer
                 btnStartStop.Enabled = true;
             }
         }
+
+        private void radTimedPaper_Click(object sender, EventArgs e)
+        {
+            _runner.IsPaper = radPaper.Checked;
+        }
+
         #endregion
 
         #region Analysis
@@ -1336,5 +1367,6 @@ namespace MorseTrainer
         private ProsignKeyAssigner _dlgAssigner;
 
         #endregion
+
     }
 }
