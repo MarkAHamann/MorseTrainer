@@ -339,8 +339,9 @@ namespace MorseTrainer
                 else if (sample > actualSamples - fade)
                 {
                     envelope = (float)(actualSamples - sample) / (float)fade;
-                } 
-                float instantaneous = (float)Math.Sin((float)(sample % _samplesPerCycle) / _samplesPerCycle * (2 * Math.PI )) * _volume * envelope;
+                }
+                float volume = _volume * _volume * _volume;
+                float instantaneous = (float)Math.Sin((float)(sample % _samplesPerCycle) / _samplesPerCycle * (2 * Math.PI )) * volume * envelope;
                 waveform[sample] = (Int16)(32767 * instantaneous);
             }
 

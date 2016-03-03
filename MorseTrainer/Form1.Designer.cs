@@ -171,6 +171,7 @@
             this.txtAnalysis.Location = new System.Drawing.Point(20, 288);
             this.txtAnalysis.Name = "txtAnalysis";
             this.txtAnalysis.ReadOnly = true;
+            this.txtAnalysis.ShortcutsEnabled = false;
             this.txtAnalysis.Size = new System.Drawing.Size(884, 177);
             this.txtAnalysis.TabIndex = 8;
             this.txtAnalysis.Text = "";

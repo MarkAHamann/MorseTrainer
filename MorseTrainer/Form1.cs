@@ -28,7 +28,7 @@ using System.Windows.Forms;
 
 namespace MorseTrainer
 {
-    public partial class Form1 : Form
+    public partial class Form1 : KeyCaptureForm
     {
         [Flags]
         public enum ControlToUpdate
@@ -268,6 +268,7 @@ namespace MorseTrainer
         private void _runner_MorseEnter(object sender, EventArgs e)
         {
             _player.Start();
+            InputtingKeys = true;
             String word = _charGenerator.CreateRandomString();
             _builder.StartBuildAsync(word, new AsyncCallback(WaveReadyCallback));
         }
@@ -315,6 +316,7 @@ namespace MorseTrainer
                 Analyze();
                 btnStartStop.Text = "Start";
                 btnStartStop.Enabled = true;
+                InputtingKeys = false;
             }
         }
 
@@ -1261,19 +1263,64 @@ namespace MorseTrainer
             {
                 key = MorseInfo.PROSIGN_AR;
             }
-            String expanded = MorseInfo.ExpandProsigns(key.ToString()).ToUpperInvariant();
-            txtAnalysis.AppendText(expanded);
-            _recorded.Append(expanded);
-            processed = true;
+
+            if (key == '\b')
+            {
+                // backspace
+                if (txtAnalysis.TextLength > 0)
+                {
+                    //txtAnalysis.SuspendLayout();
+                    txtAnalysis.Select(txtAnalysis.TextLength-1, 1);
+                    txtAnalysis.ReadOnly = false;
+                    txtAnalysis.SelectedText = "";
+                    txtAnalysis.ReadOnly = true;
+                    //txtAnalysis.Text = txtAnalysis.Text.Remove(txtAnalysis.TextLength - 1);
+                    //txtAnalysis.Select(txtAnalysis.TextLength, 0);
+                    //txtAnalysis.ResumeLayout();
+                }
+                processed = true;
+            }
+            else if (key == '\u001b')
+            {
+                // esc
+                processed = true;
+            }
+            else if (key == '\r')
+            {
+                // enter
+                processed = true;
+            }
+            else
+            {
+                String expanded = MorseInfo.ExpandProsigns(key.ToString()).ToUpperInvariant();
+                txtAnalysis.AppendText(expanded);
+                _recorded.Append(expanded);
+                processed = true;
+            }
 
             return processed;
         }
 
+        protected override bool IsInputKey(Keys keyData)
+        {
+            bool retval = base.IsInputKey(keyData);
+            return retval;
+            //return base.IsInputKey(keyData);
+        }
+
+        //protected override bool ProcessMorseKey(Keys keyData)
+        //{
+        //    //return UserKey(keyData);
+        //    return true;
+        //}
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (_runner.IsListenMode)
             {
-                e.Handled = UserKey(e.KeyChar);
+                if (UserKey(e.KeyChar))
+                {
+                    e.Handled = true;
+                }
             }
         }
         #endregion

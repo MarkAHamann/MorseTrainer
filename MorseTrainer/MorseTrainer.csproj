@@ -55,6 +55,9 @@
     <Compile Include="Analyzer.cs" />
     <Compile Include="CharGenerator.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="KeyCaptureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MorseInfo.cs" />
     <Compile Include="Comparer.cs" />
     <Compile Include="Form1.cs">
