@@ -252,6 +252,13 @@ namespace MorseTrainer
                 btnStartStop.Text = "Stop";
                 txtAnalysis.Focus();
                 txtAnalysis.Clear();
+                txtFrequency.Enabled = false;
+                txtDuration.Enabled = false;
+                txtWPM.Enabled = false;
+                txtFarnsworth.Enabled = false;
+                txtStartDelay.Enabled = false;
+                txtStopDelay.Enabled = false;
+                txtVolume.Enabled = false;
             }
         }
 
@@ -339,6 +346,13 @@ namespace MorseTrainer
             else
             {
                 Analyze();
+                txtFrequency.Enabled = true;
+                txtDuration.Enabled = true;
+                txtWPM.Enabled = true;
+                txtFarnsworth.Enabled = true;
+                txtStartDelay.Enabled = true;
+                txtStopDelay.Enabled = true;
+                txtVolume.Enabled = true;
                 btnStartStop.Text = "Start";
                 btnStartStop.Enabled = true;
                 InputtingKeys = false;
@@ -698,13 +712,8 @@ namespace MorseTrainer
             }
             set
             {
-                _toneGenerator.FarnsworthWPM = value;
-                if (_toneGenerator.WPM < _toneGenerator.FarnsworthWPM)
-                {
-                    WPM = value;
-                    WPMSlider = value;
-                    WPMText = value;
-                }
+                float limited = Math.Min(value, _toneGenerator.WPM);
+                _toneGenerator.FarnsworthWPM = limited;
             }
         }
 
@@ -722,6 +731,11 @@ namespace MorseTrainer
                     slider.Value = sliderValue;
                 }
                 float val = FarnsworthWPMSliderToValue(slider.Value);
+                if (val > WPM)
+                {
+                    val = WPM;
+                    FarnsworthWPMValueToSlider(val);
+                }
                 FarnsworthWPM = val;
                 FarnsworthWPMText = val;
             }
@@ -739,6 +753,11 @@ namespace MorseTrainer
                 if (e.KeyChar == '\r')
                 {
                     float val = FarnsworthWPMTextToValue(textbox.Text);
+                    if (val > WPM)
+                    {
+                        val = WPM;
+                        txtFarnsworth.Text = FarnsworthWPMValueToText(val);
+                    }
                     FarnsworthWPM = val;
                     FarnsworthWPMSlider = val;
                     textbox.BackColor = SystemColors.Window;
@@ -1300,14 +1319,19 @@ namespace MorseTrainer
                 // backspace
                 if (txtAnalysis.TextLength > 0)
                 {
-                    //txtAnalysis.SuspendLayout();
-                    txtAnalysis.Select(txtAnalysis.TextLength-1, 1);
+                    if (txtAnalysis.Text[txtAnalysis.TextLength - 1] == '>'
+                        && txtAnalysis.TextLength > 3
+                        && txtAnalysis.Text[txtAnalysis.TextLength - 4] == '<')
+                    {
+                        txtAnalysis.Select(txtAnalysis.TextLength - 4, 4);
+                    }
+                    else
+                    {
+                        txtAnalysis.Select(txtAnalysis.TextLength - 1, 1);
+                    }
                     txtAnalysis.ReadOnly = false;
                     txtAnalysis.SelectedText = "";
                     txtAnalysis.ReadOnly = true;
-                    //txtAnalysis.Text = txtAnalysis.Text.Remove(txtAnalysis.TextLength - 1);
-                    //txtAnalysis.Select(txtAnalysis.TextLength, 0);
-                    //txtAnalysis.ResumeLayout();
                 }
                 processed = true;
             }
