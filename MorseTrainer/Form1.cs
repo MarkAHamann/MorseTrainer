@@ -734,7 +734,7 @@ namespace MorseTrainer
                 if (val > WPM)
                 {
                     val = WPM;
-                    FarnsworthWPMValueToSlider(val);
+                    slider.Value = FarnsworthWPMValueToSlider(val);
                 }
                 FarnsworthWPM = val;
                 FarnsworthWPMText = val;

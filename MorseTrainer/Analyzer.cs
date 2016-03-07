@@ -95,7 +95,7 @@ namespace MorseTrainer
                 }
             }
 
-            Write(String.Format("Sent {0} and {1} recorded valid: {2}%" + Environment.NewLine, results.Sent.Length, totalValid, (float)totalValid / (float)results.Sent.Length));
+            Write(String.Format("Sent {0} and {1} recorded valid: {2:#}%" + Environment.NewLine, results.Sent.Length, totalValid, 100 * (float)totalValid / (float)results.Sent.Length));
             foreach (char c in MorseInfo.PossibleCharacters)
             {
                 if (sent[c] != 0 || extra[c] != 0)
