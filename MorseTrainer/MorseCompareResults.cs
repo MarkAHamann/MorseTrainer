@@ -121,6 +121,11 @@ namespace MorseTrainer
             _str = str;
         }
 
+        protected String SpacesToUnderscores(String str)
+        {
+            return str.Replace(' ', '_');
+        }
+
         /// <summary>
         /// Gets the characters of the substring
         /// </summary>
@@ -178,6 +183,7 @@ namespace MorseTrainer
             {
                 ret = MorseInfo.ExpandProsigns(_str);
             }
+            ret = SpacesToUnderscores(ret);
             return ret;
         }
 
@@ -215,6 +221,7 @@ namespace MorseTrainer
             {
                 ret = MorseInfo.ExpandProsigns(_str);
             }
+            ret = SpacesToUnderscores(ret);
             return ret;
         }
 
@@ -252,6 +259,7 @@ namespace MorseTrainer
             {
                 ret = MorseInfo.ExpandProsigns(_str);
             }
+            ret = SpacesToUnderscores(ret);
             return ret;
         }
 

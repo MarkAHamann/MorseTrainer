@@ -37,6 +37,8 @@ namespace MorseTrainer
             MorseCompareResults results = Comparer.Compare(sent, recorded);
             ShowStrings(results);
             ShowStats(results);
+            _resultsRTB.Select(0, 0);
+            _resultsRTB.ScrollToCaret();
         }
 
         private void ShowStrings(MorseCompareResults results)
@@ -95,10 +97,23 @@ namespace MorseTrainer
                 }
             }
 
-            Write(String.Format("Sent {0} and {1} recorded valid: {2:#}%" + Environment.NewLine, results.Sent.Length, totalValid, 100 * (float)totalValid / (float)results.Sent.Length));
+            Write(String.Format("Sent {0} and {1} recorded valid: {2:0}%" + Environment.NewLine, results.Sent.Length, totalValid, 100 * (float)totalValid / (float)results.Sent.Length));
+
+            // Show characters sent
+            Write(Environment.NewLine + "Characters sent:" + Environment.NewLine);
             foreach (char c in MorseInfo.PossibleCharacters)
             {
-                if (sent[c] != 0 || extra[c] != 0)
+                if (sent[c] != 0)
+                {
+                    Write(String.Format(" {0} {1}/{2} : {3},{4}" + Environment.NewLine, MorseInfo.ExpandProsigns(c), valid[c], sent[c], dropped[c], extra[c]));
+                }
+            }
+
+            // Show extra characters received
+            Write(Environment.NewLine + "Characters not sent:" + Environment.NewLine);
+            foreach (char c in MorseInfo.PossibleCharacters)
+            {
+                if (sent[c] == 0 && extra[c] != 0)
                 {
                     Write(String.Format(" {0} {1}/{2} : {3},{4}" + Environment.NewLine, MorseInfo.ExpandProsigns(c), valid[c], sent[c], dropped[c], extra[c]));
                 }

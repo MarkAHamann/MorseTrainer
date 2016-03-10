@@ -76,6 +76,7 @@
             this.radPaper = new System.Windows.Forms.RadioButton();
             this.radTimed = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.sliderFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderWPM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderDuration)).BeginInit();
@@ -134,6 +135,7 @@
             this.sliderFrequency.SmallChange = 50;
             this.sliderFrequency.TabIndex = 4;
             this.sliderFrequency.TickFrequency = 50;
+            this.toolTip.SetToolTip(this.sliderFrequency, "Sets frequency of the tone");
             this.sliderFrequency.Value = 700;
             this.sliderFrequency.Scroll += new System.EventHandler(this.sliderFrequency_Scroll);
             // 
@@ -145,6 +147,7 @@
             this.sliderWPM.Name = "sliderWPM";
             this.sliderWPM.Size = new System.Drawing.Size(663, 69);
             this.sliderWPM.TabIndex = 5;
+            this.toolTip.SetToolTip(this.sliderWPM, "Words per minute of the sending");
             this.sliderWPM.Value = 20;
             this.sliderWPM.Scroll += new System.EventHandler(this.sliderWPM_Scroll);
             // 
@@ -155,6 +158,7 @@
             this.sliderDuration.Name = "sliderDuration";
             this.sliderDuration.Size = new System.Drawing.Size(663, 69);
             this.sliderDuration.TabIndex = 7;
+            this.toolTip.SetToolTip(this.sliderDuration, "Seconds to send words");
             this.sliderDuration.Value = 2;
             this.sliderDuration.Scroll += new System.EventHandler(this.sliderDuration_Scroll);
             // 
@@ -166,13 +170,14 @@
             this.sliderFarnsworth.Name = "sliderFarnsworth";
             this.sliderFarnsworth.Size = new System.Drawing.Size(663, 69);
             this.sliderFarnsworth.TabIndex = 6;
+            this.toolTip.SetToolTip(this.sliderFarnsworth, "Words per minute of words--letters sent at WPM");
             this.sliderFarnsworth.Value = 13;
             this.sliderFarnsworth.Scroll += new System.EventHandler(this.sliderFarnsworth_Scroll);
             // 
             // txtAnalysis
             // 
             this.txtAnalysis.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAnalysis.Location = new System.Drawing.Point(20, 288);
+            this.txtAnalysis.Location = new System.Drawing.Point(29, 276);
             this.txtAnalysis.Name = "txtAnalysis";
             this.txtAnalysis.ReadOnly = true;
             this.txtAnalysis.ShortcutsEnabled = false;
@@ -183,7 +188,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 262);
+            this.label5.Location = new System.Drawing.Point(12, 248);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(182, 20);
             this.label5.TabIndex = 9;
@@ -205,6 +210,7 @@
             this.sliderStartDelay.Name = "sliderStartDelay";
             this.sliderStartDelay.Size = new System.Drawing.Size(146, 69);
             this.sliderStartDelay.TabIndex = 12;
+            this.toolTip.SetToolTip(this.sliderStartDelay, "Seconds to prepare to copy");
             this.sliderStartDelay.Value = 2;
             this.sliderStartDelay.Scroll += new System.EventHandler(this.sliderStartDelay_Scroll);
             // 
@@ -215,6 +221,7 @@
             this.sliderStopDelay.Name = "sliderStopDelay";
             this.sliderStopDelay.Size = new System.Drawing.Size(128, 69);
             this.sliderStopDelay.TabIndex = 13;
+            this.toolTip.SetToolTip(this.sliderStopDelay, "Seconds to copy final sent letters");
             this.sliderStopDelay.Value = 2;
             this.sliderStopDelay.Scroll += new System.EventHandler(this.sliderStopDelay_Scroll);
             // 
@@ -224,6 +231,7 @@
             this.txtFrequency.Name = "txtFrequency";
             this.txtFrequency.Size = new System.Drawing.Size(88, 26);
             this.txtFrequency.TabIndex = 14;
+            this.toolTip.SetToolTip(this.txtFrequency, "Sets frequency of the tone");
             this.txtFrequency.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFrequency_KeyPress);
             // 
             // txtWPM
@@ -232,6 +240,7 @@
             this.txtWPM.Name = "txtWPM";
             this.txtWPM.Size = new System.Drawing.Size(88, 26);
             this.txtWPM.TabIndex = 15;
+            this.toolTip.SetToolTip(this.txtWPM, "Words per minute of the sending");
             this.txtWPM.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtWPM_KeyPress);
             // 
             // txtFarnsworth
@@ -240,6 +249,7 @@
             this.txtFarnsworth.Name = "txtFarnsworth";
             this.txtFarnsworth.Size = new System.Drawing.Size(88, 26);
             this.txtFarnsworth.TabIndex = 16;
+            this.toolTip.SetToolTip(this.txtFarnsworth, "Words per minute of words--letters sent at WPM");
             this.txtFarnsworth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFarnsworth_KeyPress);
             // 
             // txtDuration
@@ -248,6 +258,7 @@
             this.txtDuration.Name = "txtDuration";
             this.txtDuration.Size = new System.Drawing.Size(88, 26);
             this.txtDuration.TabIndex = 17;
+            this.toolTip.SetToolTip(this.txtDuration, "Seconds to send words");
             this.txtDuration.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDuration_KeyPress);
             // 
             // btnStartStop
@@ -269,6 +280,7 @@
             this.btnKoch.TabIndex = 19;
             this.btnKoch.TabStop = true;
             this.btnKoch.Text = "Koch";
+            this.toolTip.SetToolTip(this.btnKoch, "Use Koch method order");
             this.btnKoch.UseVisualStyleBackColor = true;
             this.btnKoch.Click += new System.EventHandler(this.btnKoch_Click);
             // 
@@ -281,6 +293,7 @@
             this.btnCustom.TabIndex = 20;
             this.btnCustom.TabStop = true;
             this.btnCustom.Text = "Custom";
+            this.toolTip.SetToolTip(this.btnCustom, "Use custom string");
             this.btnCustom.UseVisualStyleBackColor = true;
             this.btnCustom.Click += new System.EventHandler(this.btnCustom_Click);
             // 
@@ -291,6 +304,7 @@
             this.cmbKoch.Name = "cmbKoch";
             this.cmbKoch.Size = new System.Drawing.Size(100, 28);
             this.cmbKoch.TabIndex = 21;
+            this.toolTip.SetToolTip(this.cmbKoch, "The latest letter for the Koch method");
             this.cmbKoch.SelectedIndexChanged += new System.EventHandler(this.cmbKoch_SelectedIndexChanged);
             // 
             // txtCustom
@@ -299,6 +313,7 @@
             this.txtCustom.Name = "txtCustom";
             this.txtCustom.Size = new System.Drawing.Size(602, 26);
             this.txtCustom.TabIndex = 22;
+            this.toolTip.SetToolTip(this.txtCustom, "A set of characters to send");
             // 
             // chkFavorNew
             // 
@@ -308,6 +323,7 @@
             this.chkFavorNew.Size = new System.Drawing.Size(192, 24);
             this.chkFavorNew.TabIndex = 23;
             this.chkFavorNew.Text = "Favor New Characters";
+            this.toolTip.SetToolTip(this.chkFavorNew, "Send new characters at a higher rate");
             this.chkFavorNew.UseVisualStyleBackColor = true;
             this.chkFavorNew.CheckStateChanged += new System.EventHandler(this.chkFavorNew_CheckStateChanged);
             // 
@@ -319,6 +335,7 @@
             this.sliderVolume.Size = new System.Drawing.Size(116, 69);
             this.sliderVolume.TabIndex = 25;
             this.sliderVolume.TickFrequency = 2;
+            this.toolTip.SetToolTip(this.sliderVolume, "Volume of tone");
             this.sliderVolume.Value = 10;
             this.sliderVolume.Scroll += new System.EventHandler(this.sliderVolume_Scroll);
             // 
@@ -337,6 +354,7 @@
             this.txtStartDelay.Name = "txtStartDelay";
             this.txtStartDelay.Size = new System.Drawing.Size(35, 26);
             this.txtStartDelay.TabIndex = 26;
+            this.toolTip.SetToolTip(this.txtStartDelay, "Seconds to prepare to copy");
             // 
             // txtStopDelay
             // 
@@ -344,6 +362,7 @@
             this.txtStopDelay.Name = "txtStopDelay";
             this.txtStopDelay.Size = new System.Drawing.Size(35, 26);
             this.txtStopDelay.TabIndex = 27;
+            this.toolTip.SetToolTip(this.txtStopDelay, "Seconds to copy final sent letters");
             // 
             // txtVolume
             // 
@@ -351,6 +370,7 @@
             this.txtVolume.Name = "txtVolume";
             this.txtVolume.Size = new System.Drawing.Size(35, 26);
             this.txtVolume.TabIndex = 28;
+            this.toolTip.SetToolTip(this.txtVolume, "Volume of tone");
             // 
             // mnuStrip
             // 
@@ -391,6 +411,7 @@
             this.radPaper.Size = new System.Drawing.Size(76, 24);
             this.radPaper.TabIndex = 29;
             this.radPaper.Text = "Paper";
+            this.toolTip.SetToolTip(this.radPaper, "After sending, the user can enter copied words");
             this.radPaper.UseVisualStyleBackColor = true;
             this.radPaper.Click += new System.EventHandler(this.radTimedPaper_Click);
             // 
@@ -404,6 +425,7 @@
             this.radTimed.TabIndex = 30;
             this.radTimed.TabStop = true;
             this.radTimed.Text = "Timed";
+            this.toolTip.SetToolTip(this.radTimed, "Time to copy final sent letters");
             this.radTimed.UseVisualStyleBackColor = true;
             this.radTimed.Click += new System.EventHandler(this.radTimedPaper_Click);
             // 
@@ -452,6 +474,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "Morse Code Trainer";
@@ -509,6 +532,7 @@
         private System.Windows.Forms.RadioButton radPaper;
         private System.Windows.Forms.RadioButton radTimed;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
 

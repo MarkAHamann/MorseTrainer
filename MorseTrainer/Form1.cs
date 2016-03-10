@@ -516,6 +516,7 @@ namespace MorseTrainer
                     Frequency = freq;
                     FrequencySlider = freq;
                     textbox.BackColor = SystemColors.Window;
+                    e.Handled = true;
                 }
             }
             catch
@@ -636,6 +637,7 @@ namespace MorseTrainer
                     WPM = val;
                     WPMSlider = val;
                     textbox.BackColor = SystemColors.Window;
+                    e.Handled = true;
                 }
             }
             catch
@@ -761,6 +763,7 @@ namespace MorseTrainer
                     FarnsworthWPM = val;
                     FarnsworthWPMSlider = val;
                     textbox.BackColor = SystemColors.Window;
+                    e.Handled = true;
                 }
             }
             catch
@@ -877,6 +880,7 @@ namespace MorseTrainer
                     Duration = val;
                     DurationSlider = val;
                     textbox.BackColor = SystemColors.Window;
+                    e.Handled = true;
                 }
             }
             catch
@@ -993,6 +997,7 @@ namespace MorseTrainer
                     StartDelay = val;
                     StartDelaySlider = val;
                     textbox.BackColor = SystemColors.Window;
+                    e.Handled = true;
                 }
             }
             catch
@@ -1109,6 +1114,7 @@ namespace MorseTrainer
                     StopDelay = val;
                     StopDelaySlider = val;
                     textbox.BackColor = SystemColors.Window;
+                    e.Handled = true;
                 }
             }
             catch
@@ -1225,6 +1231,7 @@ namespace MorseTrainer
                     Volume = val;
                     VolumeSlider = val;
                     textbox.BackColor = SystemColors.Window;
+                    e.Handled = true;
                 }
             }
             catch
@@ -1356,18 +1363,6 @@ namespace MorseTrainer
             return processed;
         }
 
-        protected override bool IsInputKey(Keys keyData)
-        {
-            bool retval = base.IsInputKey(keyData);
-            return retval;
-            //return base.IsInputKey(keyData);
-        }
-
-        //protected override bool ProcessMorseKey(Keys keyData)
-        //{
-        //    //return UserKey(keyData);
-        //    return true;
-        //}
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (_runner.IsListenMode)
@@ -1391,6 +1386,5 @@ namespace MorseTrainer
         private ProsignKeyAssigner _dlgAssigner;
 
         #endregion
-
     }
 }

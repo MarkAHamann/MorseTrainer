@@ -49,6 +49,9 @@ namespace MorseTrainer
         {
             // save the morse conversions into an array
             __conversions = new String[256];
+
+            __conversions[' '] = " "; // space
+
             __conversions['A'] = ".-";
             __conversions['B'] = "-...";
             __conversions['C'] = "-.-.";
